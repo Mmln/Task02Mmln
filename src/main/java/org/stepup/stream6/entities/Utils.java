@@ -17,7 +17,6 @@ public class Utils<T>  implements InvocationHandler {
         this.val = obj;
     }
 
-    @SuppressWarnings("unchecked")
     public static <T> T cache(T arg){
         return (T) Proxy.newProxyInstance(arg.getClass().getClassLoader(),
                 arg.getClass().getInterfaces(),

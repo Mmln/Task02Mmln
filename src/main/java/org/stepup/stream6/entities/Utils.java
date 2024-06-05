@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 public class Utils<T>  implements InvocationHandler {
     private final T val;
-    private Double cache = null;
+    private static Double cache = null;
 
     public Utils(T obj) {
         this.val = obj;
@@ -29,12 +29,12 @@ public class Utils<T>  implements InvocationHandler {
 
         Annotation[] anns = m.getDeclaredAnnotations();
 
-        if (Arrays.stream(anns).filter(x->((Annotation)x).annotationType().equals(Mutator.class)).count()>0){
+        if (Arrays.stream(anns).anyMatch(x -> ((Annotation) x).annotationType().equals(Mutator.class))){
             System.out.print("Mutator called ");
             cache = null;
         }
 
-        if (Arrays.stream(anns).filter(x->((Annotation)x).annotationType().equals(Cache.class)).count()>0) {
+        if (Arrays.stream(anns).anyMatch(x -> ((Annotation) x).annotationType().equals(Cache.class))) {
             if( cache == null) {
                 cache = (Double) m.invoke(val,args);
                 System.out.print(" doubleValue calculated and returned ");

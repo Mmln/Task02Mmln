@@ -9,9 +9,9 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Arrays;
 
-public class Utils<T>  implements InvocationHandler {
-    private final T val;
-    private static Double cache = null;
+public class Utils<T> implements InvocationHandler {
+    private T val;
+    private Double cache = null;
 
     public Utils(T obj) {
         this.val = obj;
@@ -27,17 +27,18 @@ public class Utils<T>  implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         Method m = val.getClass().getMethod(method.getName(), method.getParameterTypes());
 
+        // anns  array is used, because there can be more than one annotation
         Annotation[] anns = m.getDeclaredAnnotations();
 
-        if (Arrays.stream(anns).anyMatch(x -> ((Annotation) x).annotationType().equals(Mutator.class))){
+        if (Arrays.stream(anns).anyMatch(x -> (x).annotationType().equals(Mutator.class))){
             System.out.print("Mutator called ");
             cache = null;
         }
 
-        if (Arrays.stream(anns).anyMatch(x -> ((Annotation) x).annotationType().equals(Cache.class))) {
+        if (Arrays.stream(anns).anyMatch(x -> (x).annotationType().equals(Cache.class))) {
             if( cache == null) {
                 cache = (Double) m.invoke(val,args);
-                System.out.print(" doubleValue calculated and returned ");
+                System.out.print(" Cache calculated and returned ");
             } else {
                 System.out.print(" Cache returned ");
             }

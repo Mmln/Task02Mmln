@@ -6,14 +6,10 @@ import org.junit.Test;
 import org.stepup.stream6.entities.Utils;
 import org.stepup.stream6.interfaces.Fractionable;
 
-/**
- * Unit test for simple App.
- */
-public class AppTest 
+public class AppTest
 {
     @Test
-    public void testApp()
-    {
+    public void testApp(){
         System.out.println("\nUtilsTest.cache()");
         UtilsTest.FractionTst fr = new UtilsTest.FractionTst(7,7);
         Fractionable nm = Utils.cache(fr);
